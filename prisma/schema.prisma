@@ -1,0 +1,36 @@
+datasource db {
+    provider = "mysql"
+    url = "mysql://root:1234@localhost:3306/nexus"
+}
+
+generator client {
+    provider = "prisma-client-js"
+}
+
+model User {
+    id Int @id @default(autoincrement())
+    name String @unique
+    created DateTime @default(now())
+    crops String
+    orders Order[]
+}
+
+model Crop {
+    id Int @id @default(autoincrement())
+    name String?
+}
+
+model Order {
+    id Int @id @default(autoincrement())
+    farmer User? @relation(fields: [farmerId], references: [id])
+    farmerId Int?
+    quantity Int
+    grade Grade
+}
+
+enum Grade {
+    EXCELLANT
+    HIGH
+    MIDDLE
+    LOW
+}
