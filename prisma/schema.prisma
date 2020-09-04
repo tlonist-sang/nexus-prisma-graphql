@@ -11,19 +11,20 @@ model User {
     id Int @id @default(autoincrement())
     name String @unique
     created DateTime @default(now())
-    crops String
+    crops Crop[] @relation(references: [id])
     orders Order[]
 }
 
 model Crop {
     id Int @id @default(autoincrement())
-    name String?
+    name String? @unique
+    users User[] @relation(references: [id])
 }
 
 model Order {
     id Int @id @default(autoincrement())
-    farmer User? @relation(fields: [farmerId], references: [id])
-    farmerId Int?
+    user User? @relation(fields: [userId], references: [id])
+    userId Int?
     quantity Int
     grade Grade
 }

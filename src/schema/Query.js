@@ -5,8 +5,8 @@ const User = objectType({
     definition(t) {
         t.model.id()
         t.model.created()
-        t.model.crops()
         t.string("name", {nullable: false})
+        t.list.field("crops", {type:"Crop"})
         t.list.field("orders", {type:"Order"})
     },
 })
@@ -16,9 +16,18 @@ const Order = objectType({
     definition(t) {
         t.model.id()
         t.model.grade()
-        t.field("farmer", {type:"User"})
-        t.int("farmerId", {nullable: false})
+        t.field("user", {type:"User"})
+        t.int("userId", {nullable: false})
         t.int("quantity", {nullable: true})
+    }
+})
+
+const Crop = objectType({
+    name: "Crop",
+    definition(t) {
+        t.model.id()
+        t.string("name", {nullable: false})
+        t.list.field("users", {type: "User"})
     }
 })
 
@@ -28,17 +37,39 @@ const Query = queryType({
         t.field("userByName", {
             type: User,
             args: {
-                 name: stringArg()
+                 name: stringArg(),
             },
-            async resolve(parent, args, ctx, info) {
+            async resolve(parent, {name}, ctx, info) {
                 const foundUser = await ctx.user
                 .findOne({
                     where: {
-                        name: args.name
+                        name
                     },
+                    include: {
+                        crops: true,
+                        orders: true
+                    }
                 })
             
                 return foundUser;
+            }
+        });
+        t.field("cropByName", {
+            type: Crop,
+            args: {
+                name: stringArg(),
+            },
+            async resolve(parent, {name}, ctx, info) {
+                const foundCrop = await ctx.crop
+                .findOne({
+                    where: {
+                        name
+                    },
+                    include: {
+                        users: true
+                    }
+                })
+                return foundCrop;
             }
         });
         t.list.field("users", {
@@ -53,9 +84,15 @@ const Query = queryType({
             resolve: (_, args, ctx) => {
                 return ctx.order.findMany()
             }
+        }),
+        t.list.field("crops", {
+            type: Crop,
+            resolve: (_, args, ctx) => {
+                return ctx.crop.findMany()
+            }
         })
     }
 })
 module.exports = {
-    User, Order, Query
+    User, Order, Query, Crop
 }
