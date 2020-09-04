@@ -1,4 +1,4 @@
-const {mutationField, inputObjectType, stringArg, intArg, arg, enumType} = require('@nexus/schema');
+const {mutationField, stringArg, intArg} = require('@nexus/schema');
 const {Order, User, Crop} = require('./Query');
 const { transformDocument } = require('@prisma/client/runtime');
 
@@ -77,8 +77,11 @@ const createUser = mutationField("createUser", {
                 crops: {
                     create: [{
                         name: crop
-                    }]
+                    }],
                 }
+            },
+            include : {
+                crops: true
             }
         })
         return createdUser;
