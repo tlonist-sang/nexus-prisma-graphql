@@ -1,0 +1,1 @@
+{ "dirs" : [ "src" , "src/bindings" , "src/bindings/nexus" , "src/bindings/prisma" , "src/schema" , "src/context" ] , "pkgs" : [ [ "bs-platform" , "/Users/tlonist/Documents/study/graphql-prisma-nexus/node_modules/bs-platform" ] ] , "generated" : [] }

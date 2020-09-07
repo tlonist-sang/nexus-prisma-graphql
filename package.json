@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon src/index.js"
+    "start": "nodemon src/index.js",
+    "watch": "bsb -make-world -w",
+    "res-start": "nodemon src/index.bs.js"
   },
   "keywords": [],
   "author": "",
@@ -13,6 +15,7 @@
   "dependencies": {
     "@nexus/schema": "^0.15.0",
     "@prisma/client": "^2.6.0",
+    "bs-platform": "^8.2.0",
     "graphql-yoga": "^1.18.3",
     "nexus": "^0.26.1",
     "nexus-plugin-prisma": "^0.17.0",

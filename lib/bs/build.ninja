@@ -1,0 +1,62 @@
+g_pkg_flg = -bs-package-name graphql-prisma-nexus
+src_root_dir = /Users/tlonist/Documents/study/graphql-prisma-nexus
+bsc = /Users/tlonist/Documents/study/graphql-prisma-nexus/node_modules/bs-platform/darwin/bsc.exe
+bsdep = /Users/tlonist/Documents/study/graphql-prisma-nexus/node_modules/bs-platform/darwin/bsb_helper.exe
+warnings =  -warn-error +101
+bsc_flags = 
+ppx_flags = 
+g_dpkg_incls = 
+g_ns = 
+g_lib_incls = -I src/context -I src/schema -I src/bindings/prisma -I src/bindings/nexus -I src/bindings -I src
+rule build_ast_from_re
+  command = $bsc  $warnings $bsc_flags -o $out -bs-syntax-only -bs-binary-ast $in
+  description = [34mBuilding[39m [2m${out}[22m
+build  src/index.resast : build_ast_from_re $src_root_dir/src/index.res
+rule mk_deps
+  command = $bsdep -hash db16169a52703f0ade30e1bfcdd6f01e $g_ns $in
+  restat = 1
+  description = [34mBuilding[39m [2m${out}[22m
+build  src/index.d : mk_deps src/index.resast
+rule ml_cmj_cmi
+  command = $bsc $g_pkg_flg -bs-suffix $g_lib_incls $warnings $bsc_flags -o $out $in
+  dyndep = $in_e.d
+  restat = 1
+  description = [34mBuilding[39m [2m${out}[22m
+build  src/index.cmj |  src/index.cmi $src_root_dir/src/index.bs.js : ml_cmj_cmi src/index.resast ||  src/index.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src
+build  src/bindings/Util.resast : build_ast_from_re $src_root_dir/src/bindings/Util.res
+build  src/bindings/Util.d : mk_deps src/bindings/Util.resast
+build  src/bindings/Util.cmj |  src/bindings/Util.cmi $src_root_dir/src/bindings/Util.bs.js : ml_cmj_cmi src/bindings/Util.resast ||  src/bindings/Util.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src/bindings
+build  src/bindings/GraphQLServer.resast : build_ast_from_re $src_root_dir/src/bindings/GraphQLServer.res
+build  src/bindings/GraphQLServer.d : mk_deps src/bindings/GraphQLServer.resast
+build  src/bindings/GraphQLServer.cmj |  src/bindings/GraphQLServer.cmi $src_root_dir/src/bindings/GraphQLServer.bs.js : ml_cmj_cmi src/bindings/GraphQLServer.resast ||  src/bindings/GraphQLServer.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src/bindings
+build  src/bindings/nexus/Nexus.resast : build_ast_from_re $src_root_dir/src/bindings/nexus/Nexus.res
+build  src/bindings/nexus/Nexus.d : mk_deps src/bindings/nexus/Nexus.resast
+build  src/bindings/nexus/Nexus.cmj |  src/bindings/nexus/Nexus.cmi $src_root_dir/src/bindings/nexus/Nexus.bs.js : ml_cmj_cmi src/bindings/nexus/Nexus.resast ||  src/bindings/nexus/Nexus.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src/bindings/nexus
+build  src/bindings/nexus/NexusArg.resast : build_ast_from_re $src_root_dir/src/bindings/nexus/NexusArg.res
+build  src/bindings/nexus/NexusArg.d : mk_deps src/bindings/nexus/NexusArg.resast
+build  src/bindings/nexus/NexusArg.cmj |  src/bindings/nexus/NexusArg.cmi $src_root_dir/src/bindings/nexus/NexusArg.bs.js : ml_cmj_cmi src/bindings/nexus/NexusArg.resast ||  src/bindings/nexus/NexusArg.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src/bindings/nexus
+build  src/bindings/nexus/NexusResolver.resast : build_ast_from_re $src_root_dir/src/bindings/nexus/NexusResolver.res
+build  src/bindings/nexus/NexusResolver.d : mk_deps src/bindings/nexus/NexusResolver.resast
+build  src/bindings/nexus/NexusResolver.cmj |  src/bindings/nexus/NexusResolver.cmi $src_root_dir/src/bindings/nexus/NexusResolver.bs.js : ml_cmj_cmi src/bindings/nexus/NexusResolver.resast ||  src/bindings/nexus/NexusResolver.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src/bindings/nexus
+build  src/bindings/prisma/Prisma.resast : build_ast_from_re $src_root_dir/src/bindings/prisma/Prisma.res
+build  src/bindings/prisma/Prisma.d : mk_deps src/bindings/prisma/Prisma.resast
+build  src/bindings/prisma/Prisma.cmj |  src/bindings/prisma/Prisma.cmi $src_root_dir/src/bindings/prisma/Prisma.bs.js : ml_cmj_cmi src/bindings/prisma/Prisma.resast ||  src/bindings/prisma/Prisma.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src/bindings/prisma
+build  src/bindings/prisma/PrismaArg.resast : build_ast_from_re $src_root_dir/src/bindings/prisma/PrismaArg.res
+build  src/bindings/prisma/PrismaArg.d : mk_deps src/bindings/prisma/PrismaArg.resast
+build  src/bindings/prisma/PrismaArg.cmj |  src/bindings/prisma/PrismaArg.cmi $src_root_dir/src/bindings/prisma/PrismaArg.bs.js : ml_cmj_cmi src/bindings/prisma/PrismaArg.resast ||  src/bindings/prisma/PrismaArg.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src/bindings/prisma
+build  src/schema/Schema.resast : build_ast_from_re $src_root_dir/src/schema/Schema.res
+build  src/schema/Schema.d : mk_deps src/schema/Schema.resast
+build  src/schema/Schema.cmj |  src/schema/Schema.cmi $src_root_dir/src/schema/Schema.bs.js : ml_cmj_cmi src/schema/Schema.resast ||  src/schema/Schema.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src/schema
+build  src/context/GraphQLArg.resast : build_ast_from_re $src_root_dir/src/context/GraphQLArg.res
+build  src/context/GraphQLArg.d : mk_deps src/context/GraphQLArg.resast
+build  src/context/GraphQLArg.cmj |  src/context/GraphQLArg.cmi $src_root_dir/src/context/GraphQLArg.bs.js : ml_cmj_cmi src/context/GraphQLArg.resast ||  src/context/GraphQLArg.d
+  g_pkg_flg = $g_pkg_flg  -bs-package-output commonjs:src/context

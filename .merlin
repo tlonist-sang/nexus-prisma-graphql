@@ -1,0 +1,18 @@
+####{BSB GENERATED: NO EDIT
+FLG -ppx '/Users/tlonist/Documents/study/graphql-prisma-nexus/node_modules/bs-platform/darwin/bsc.exe -as-ppx '
+S /Users/tlonist/Documents/study/graphql-prisma-nexus/node_modules/bs-platform/lib/ocaml
+B /Users/tlonist/Documents/study/graphql-prisma-nexus/node_modules/bs-platform/lib/ocaml
+FLG -w +a-4-9-20-40-41-42-50-61-102
+S src
+B lib/bs/src
+S src/bindings
+B lib/bs/src/bindings
+S src/bindings/nexus
+B lib/bs/src/bindings/nexus
+S src/bindings/prisma
+B lib/bs/src/bindings/prisma
+S src/schema
+B lib/bs/src/schema
+S src/context
+B lib/bs/src/context
+####BSB GENERATED: NO EDIT}

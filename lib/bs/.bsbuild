@@ -1,0 +1,14 @@
+10
+Util
+Index
+Nexus
+Prisma
+Schema
+NexusArg
+PrismaArg
+GraphQLArg
+GraphQLServer
+NexusResolver
+src/bindings	src	src/bindings/nexus	src/bindings/prisma	src/schema	src/context	
+1	
+0
