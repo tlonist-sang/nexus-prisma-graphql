@@ -11,6 +11,6 @@ type mutationResolver<'instance> = {
     @bs.as("type")
     types: string, 
     @bs.as("args")
-    args_: NexusArg.plainArgsType,
-    resolve: parentType => NexusArg.argsType => ctxType<'instance> => infoType => Js.Promise.t<returnType>
+    args: NexusArg.plainArgsType,
+    resolve: parentType => NexusArg.plainArgsType => ctxType<'instance> => infoType => Js.Promise.t<returnType>
 }

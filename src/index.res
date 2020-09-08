@@ -3,8 +3,9 @@ open GraphQLServer
 
 
 let config: config<GraphQLArg.schemaType, GraphQLArg.contextType> = {
-    schema: nexusSchema,
-    context: prismaContext
+    schema: GraphQLArg.nexusSchema,
+    context: GraphQLArg.prismaContext
 }
 
 let server = graphQLServer(config);
+server->start

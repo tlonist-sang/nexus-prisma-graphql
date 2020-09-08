@@ -4,13 +4,42 @@
 var Schema = require("@nexus/schema");
 var Schema$1 = require("nexus-plugin-prisma/schema'");
 
+var createUser = Schema.mutationField("createUser", {
+      type: "User",
+      args: {
+        name: Schema.stringArg("Input name"),
+        orders: Schema.stringArg("Input orders"),
+        crop: Schema.stringArg("Input crop")
+      },
+      resolve: (function (param, args, ctx, param$1) {
+          return ctx.prisma.user.create({
+                      data: {
+                        name: args.name,
+                        orders: args.orders,
+                        crops: {
+                          create: [{
+                              name: args.crop
+                            }]
+                        }
+                      },
+                      include: {
+                        crops: true
+                      }
+                    });
+        })
+    });
+
 var schema = Schema.makeSchema({
-      types: [],
+      types: [{
+          TAG: /* NexusMutationField */1,
+          _0: createUser
+        }],
       plugins: [Schema$1.nexusSchemaPlugin()],
       outputs: {
         schema: __dirname + "/../schema.graphql"
       }
     });
 
+exports.createUser = createUser;
 exports.schema = schema;
-/* schema Not a pure module */
+/* createUser Not a pure module */

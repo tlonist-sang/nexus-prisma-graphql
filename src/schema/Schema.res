@@ -6,7 +6,7 @@ type prismaInstance = {
     user: prismaModel
 }
 
-let createUser = mutationField("createUser", {
+let createUser = mutationField(~name="createUser", {
     types: "User",
     args: {
         name: stringArg("Input name"),
@@ -20,7 +20,7 @@ let createUser = mutationField("createUser", {
                 orders: args.orders,
                 crops: {
                     create: [{
-                        name: args_.crop
+                        name: args.crop
                     }],
                 }
             },
@@ -35,7 +35,7 @@ let createUser = mutationField("createUser", {
 
 
 let schema = makeSchema({
-    types: [nexusMakeSchemaType(createUser) ],
+    types: [NexusMutationField(createUser)],
     plugins: [nexusSchemaPrisma()],
     outputs: {
         schema: Util.dirname ++ "/../schema.graphql"
