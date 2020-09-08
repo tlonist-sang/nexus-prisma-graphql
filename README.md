@@ -8,7 +8,7 @@
 
 # Prisma Relations
 ## One to Many
-- One to many: One user can have many orders, and each order has exactly one user.
+- One to many: 유저는 많은 주문을 받알 수 있지만, 한 주문은 하나의 유저를 갖습니다.
 
 ```javascript
 model User {
@@ -59,7 +59,7 @@ model Crop {
     users User[] @relation(references: [id])
 }
 ```
-- Many to many: User can have many crops, and one crop has many users cultivating it.
+- Many to many: 유저는 많은 작물을 가질 수 있고, 한 작물에는 많은 유저들이 있을 수 있습니다.
 ### Update user's crop information (adding or deleting crops one cultivates)
 
 ```javascript
@@ -160,7 +160,7 @@ const users = await prisma.user.findMany({
 })
 
 # ReScript로 구동하기
-- 이제 본격적으로 ReScript로 다뤄볼 차례입니다. ReScript가 근거하고 있는 bucklescript를 사용할 수 있도록 bs-platform을 설치합시다. 
+- 본격적으로 ReScript로 다뤄볼 차례입니다. ReScript가 근거하고 있는 bucklescript를 사용할 수 있도록 bs-platform을 설치합시다. (간편하게 bsb-init을 해도 됩니다.)
 
 - ReScript의 binding feature를 이용해서 Res에서 같은 기능을 할 수 있도록 해봅시다. 크게 보면 다음 단계들로 나눠져 있습니다. (순차적인것은 아닙니다)
 1. GraphQL 서버 바인딩
@@ -175,31 +175,26 @@ const server = new GraphQLServer({
     context: prisma
 })
 ```
-- 필요한 것들을 나열하자면,
+- 다음이 필요합니다.
 1. GraphQLServer를 만들어내는 new 
 2. schema (nexus 관련) 타입 정의
-3. context (prisma 관련) 타입 정의  
+3. context (prisma 관련) 타입 정의
+4. graphql argument에 대한 바인딩  
+5. server.start()에 대한 바인딩
 
-```javascript
-```
+## Prisma 바인딩
+- Prisma는 prisma client를 사용해 DB 쿼리를 하게 해줍니다. 아직 bs-prisma 바인딩이 없으므로 직접 모든 함수들을 바인딩시켜줘야합니다.
+1. prisma client 생성
+2. create, findOne, findMany 등등의 함수 바인딩
+3. prisma object(t.model, t.string, t.int)안에서 꺼내는 값들에 대한 바인딩
 
-```javascript
-```
+## Nexus 바인딩
+- Nexus는 schema.graphql을 생성하는 역할과 prisma object와 resolve를 동시에 declare하는 역할을 합니다. 
+1. Nexus에서 사용하는 함수들에 대한 바인딩 (objectType, mutationField, etc..)
+2. 1에서 사용하는 함수들의 argument에 대한 바인딩
+3. NexusPlugin에 대한 바인딩 (prisma와 연동)
+4. 
 
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
 
 ## Prisma 바인딩
 - prisma 바인딩에선 다음이 이뤄져야 합니다. 
@@ -209,18 +204,4 @@ const server = new GraphQLServer({
 2. arg.model 로 빼내야 하는 모든 arg 타입에 대한 바인딩 
 3. resolve에 해당하는 바인딩
 
-```javascript
-```
 
-```javascript
-```
-
-```javascript
-```
-
-```javascript
-```
-
-
-## Nexus 바인딩
-- Nexus에서 사용하는 makeSchema, objectType, mutationField, 여러 타입의 Args들을 ReScript에서 사용할 수 있도록 해줍시다. 
